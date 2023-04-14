@@ -1,12 +1,15 @@
 import { useCreateAccessTokenMutation } from '../store/access/access.api'
 import { useGetBonusInfoQuery } from '../store/bonus/bonus.api'
+import { IoIosArrowDropright } from 'react-icons/io'
 import { useEffect } from 'react'
+import { Loader } from './'
+import { fire } from '../assets/images'
 
 function BonusInfo() {
   const [getAccess, { data }] = useCreateAccessTokenMutation()
-  const { data: bonusInfo } = useGetBonusInfoQuery(data?.accessToken, {
-    skip: data?.accessToken === '',
-  })
+  const { data: bonusInfo, isLoading } = useGetBonusInfoQuery(
+    data?.accessToken || ''
+  )
 
   const startAccessProcess = async () => {
     try {
@@ -29,8 +32,35 @@ function BonusInfo() {
   }, [])
 
   return (
-    <div>
-      <p>{bonusInfo?.data?.currentQuantity}</p>
+    <div className="info">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="description">
+            <div className="title">
+              <p>{bonusInfo?.data?.currentQuantity} бонусов</p>
+            </div>
+            <div className="text">
+              <p>
+                {bonusInfo?.data?.dateBurning &&
+                  new Date(bonusInfo.data.dateBurning).toLocaleDateString(
+                    'ru-RU',
+                    {
+                      day: 'numeric',
+                      month: '2-digit',
+                    }
+                  ) + ' сгорит'}
+              </p>
+              <img src={fire} alt="fireIcon" />
+              <p>{bonusInfo?.data?.forBurningQuantity} бонусов</p>
+            </div>
+          </div>
+          <div className="arrow">
+            <IoIosArrowDropright className="icon" />
+          </div>
+        </>
+      )}
     </div>
   )
 }
