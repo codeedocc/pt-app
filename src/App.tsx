@@ -1,7 +1,9 @@
+import BonusInfo from './components/BonusInfo'
+
 function App() {
   return (
     <div>
-      <p>Hello World!</p>
+      <BonusInfo />
     </div>
   )
 }
