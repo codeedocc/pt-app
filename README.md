@@ -1,5 +1,5 @@
   <h1 align="center">Используемые технологии:</h1>
- 
+  
  <br />
 
  <h1>1. <strong>RTK Query</strong></h1>
